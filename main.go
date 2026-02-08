@@ -153,7 +153,7 @@ func main() {
 	}
 
 	// todo handle other language
-	_ = os.MkdirAll("schema/typescript/types", 0755)
+	_ = os.MkdirAll("contract/typescript", 0755)
 	for module, content := range moduleContent[langTypescript] {
 		// handle imports
 		var needImports [][]byte
@@ -183,7 +183,7 @@ func main() {
 			}
 		}
 
-		path := fmt.Sprintf("schema/typescript/types/%s.ts", module)
+		path := fmt.Sprintf("contract/typescript/%s.ts", module)
 		if err := os.WriteFile(path, content, 0644); err != nil {
 			panic(err)
 		}
