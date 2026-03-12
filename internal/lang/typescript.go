@@ -65,6 +65,9 @@ func (t TsEmmitter) EmitTypescript(program ir.Program) map[string][]byte {
 			buf = append(buf, "}\n\n"...)
 		}
 
+		if bytes.Equal(buf, doNotEdit) {
+			continue
+		}
 		out[moduleName] = buf
 	}
 
