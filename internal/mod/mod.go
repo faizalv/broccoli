@@ -41,7 +41,7 @@ func (m Mod) GetModuleName(pkgID string) (string, bool) {
 		return "", false
 	}
 
-	rest := pkgID[i+len(m.marker):]
+	rest := strings.TrimPrefix(pkgID[i+len(m.marker):], "/")
 
 	// module name ends at next slash or as last item
 	j := strings.IndexByte(rest, '/')
