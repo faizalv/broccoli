@@ -23,8 +23,8 @@ const (
 )
 
 func main() {
-	modular := flag.Bool("modular", false, "enable modular mode")
-	moduleDir := flag.String("moddir", "", "a directory where modules are located")
+	modular := flag.Bool("modular", false, "enable modular code reading mode")
+	moduleDir := flag.String("moddir", "", "a directory where modules are located, this directory will act as a base directory to determine which module a type belongs to")
 	flag.Parse()
 
 	if !*modular {
