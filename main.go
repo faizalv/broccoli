@@ -25,6 +25,7 @@ const (
 func main() {
 	modular := flag.Bool("modular", false, "enable modular code reading mode")
 	moduleDir := flag.String("moddir", "", "a directory where modules are located, this directory will act as a base directory to determine which module a type belongs to")
+	withSDK := flag.Bool("with-sdk", false, "generate a typed fetch SDK from swaggo-annotated handler functions")
 	flag.Parse()
 
 	if !*modular {
@@ -76,6 +77,22 @@ func main() {
 
 	if err := writeOutputs(langTypescript, outputs[langTypescript]); err != nil {
 		panic(err)
+	}
+
+	if *withSDK {
+		sdk := analyzer.CollectRoutes(pkgs)
+		sdkBytes := ts.EmitSdk(sdk, program)
+		if sdkBytes != nil {
+			dir := filepath.Join("contract", string(langTypescript))
+			if err := os.MkdirAll(dir, 0o755); err != nil {
+				panic(err)
+			}
+			path := filepath.Join(dir, "sdk.ts")
+			if err := os.WriteFile(path, sdkBytes, 0o644); err != nil {
+				panic(err)
+			}
+			fmt.Println("Generated " + path)
+		}
 	}
 }
 
